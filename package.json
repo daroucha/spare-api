@@ -1,0 +1,19 @@
+{
+  "name": "spare-api",
+  "version": "1.0.0",
+  "description": "RestFul API for Spare App",
+  "main": "server.js",
+  "scripts": {
+    "start": "NODE_ENV=production node server",
+    "dev": "nodemon server"
+  },
+  "author": "Daniel Aroucha",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
