@@ -1,49 +1,23 @@
 const express = require('express')
+const {
+  getIncomes,
+  getIncome,
+  createIncome,
+  updateIncome,
+  deleteIncome,
+} = require('../controllers/incomes')
+
 const router = express.Router()
 
-router.get('/', (req, res) => {
-  res
-    .status(200)
-    .json({
-      success: true,
-      msg: `Show all incomes`
-    })
-})
+router
+  .route('/')
+  .get(getIncomes)
+  .post(createIncome)
 
-router.get('/:id', (req, res) => {
-  res
-    .status(200)
-    .json({
-      success: true,
-      msg: `Show income ${req.params.id}`
-    })
-})
-
-router.post('/', (req, res) => {
-  res
-    .status(200)
-    .json({
-      success: true,
-      msg: `Create a new income`
-    })
-})
-
-router.put('/:id', (req, res) => {
-  res
-    .status(200)
-    .json({
-      success: true,
-      msg: `Update income ${req.params.id}`
-    })
-})
-
-router.delete('/:id', (req, res) => {
-  res
-    .status(200)
-    .json({
-      success: true,
-      msg: `Delete income ${req.params.id}`
-    })
-})
+router
+  .route('/:id')
+  .get(getIncome)
+  .put(updateIncome)
+  .delete(deleteIncome)
 
 module.exports = router
