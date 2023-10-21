@@ -1,6 +1,9 @@
 const express = require('express')
 const dotenv = require('dotenv')
 
+// Route files
+const incomes = require('./routes/incomes')
+
 // Load ENV Vars
 dotenv.config({
   path: './config/config.env',
@@ -8,6 +11,9 @@ dotenv.config({
 
 // Initialize App
 const app = express()
+
+// Mount routers
+app.use('/api/v1/incomes', incomes)
 
 const PORT = process.env.PORT || 8080
 
