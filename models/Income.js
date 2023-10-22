@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const slugify = require('slugify')
 
 const IncomeSchema = new mongoose.Schema({
   name: {
@@ -16,18 +17,16 @@ const IncomeSchema = new mongoose.Schema({
     required: [true, 'Please add a amount'],
     min: [1, 'Amount must be at least 1'],
   },
-  recurrence: [
-    {
-      status: {
-        type: Boolean,
-        default: false,
-      },
-      date: {
-        type: Date,
-        default: Date.now,
-      },
+  recurrence: {
+    status: {
+      type: Boolean,
+      default: false,
     },
-  ],
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+  },
   date: {
     type: Date,
     default: Date.now,
@@ -36,6 +35,12 @@ const IncomeSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+})
+
+// Create income slug from the name
+IncomeSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true })
+  next()
 })
 
 module.exports = mongoose.model('Income', IncomeSchema)
