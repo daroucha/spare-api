@@ -1,7 +1,9 @@
 [
   {
-    "_id": "",
-    "user": "",
-    "name": ""
+    "name": "Salary",
+    "amount": 6000,
+    "recurrence": [{
+      "status": true
+    }]
   }
 ]
