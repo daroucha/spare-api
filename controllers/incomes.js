@@ -1,10 +1,12 @@
+const ErrorResponse = require('../utils/errorResponse')
+const asyncHandler = require('../middleware/async')
 const Income = require('../models/Income')
 
 // @desc    Get all incomes
 // @route   GET /api/v1/incomes
 // @access  Private
-exports.getIncomes = async (req, res, next) => {
-  try {
+exports.getIncomes = asyncHandler(
+  async (req, res, next) => {
     const incomes = await Income.find()
 
     res.status(200).json({
@@ -12,62 +14,49 @@ exports.getIncomes = async (req, res, next) => {
       count: incomes.length,
       data: incomes,
     })
-  } catch (err) {
-    res.status(400).json({
-      success: false,
-    })
   }
-}
+)
 
 // @desc    Get single income
 // @route   GET /api/v1/incomes/:id
 // @access  Private
-exports.getIncome = async (req, res, next) => {
-  try {
-    const income = await Income.findById(
-      req.params.id
+exports.getIncome = asyncHandler(async (req, res, next) => {
+  const income = await Income.findById(req.params.id)
+
+  if (!income) {
+    return next(
+      new ErrorResponse(
+        `Income not found with id of ${req.params.id}`,
+        404
+      )
     )
-
-    if (!income) {
-      return res.status(400).json({
-        success: false,
-      })
-    }
-
-    res.status(200).json({
-      success: true,
-      data: income,
-    })
-  } catch (err) {
-    res.status(400).json({
-      success: false,
-    })
   }
-}
+
+  res.status(200).json({
+    success: true,
+    data: income,
+  })
+})
 
 // @desc    Create new income
 // @route   POST /api/v1/incomes
 // @access  Private
-exports.createIncome = async (req, res, next) => {
-  try {
+exports.createIncome = asyncHandler(
+  async (req, res, next) => {
     const income = await Income.create(req.body)
 
     res.status(201).json({
       success: true,
       data: income,
     })
-  } catch (err) {
-    res.status(400).json({
-      success: false,
-    })
   }
-}
+)
 
 // @desc    Update income
 // @route   PUT /api/v1/incomes/:id
 // @access  Private
-exports.updateIncome = async (req, res, next) => {
-  try {
+exports.updateIncome = asyncHandler(
+  async (req, res, next) => {
     const income = await Income.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -78,44 +67,42 @@ exports.updateIncome = async (req, res, next) => {
     )
 
     if (!income) {
-      return res.status(400).json({
-        success: false,
-      })
+      return next(
+        new ErrorResponse(
+          `Income not found with id of ${req.params.id}`,
+          404
+        )
+      )
     }
 
     res.status(200).json({
       success: true,
       data: income,
     })
-  } catch (err) {
-    return res.status(400).json({
-      success: false,
-    })
   }
-}
+)
 
 // @desc    Delete income
 // @route   DELETE /api/v1/incomes/:id
 // @access  Private
-exports.deleteIncome = async (req, res, next) => {
-  try {
+exports.deleteIncome = asyncHandler(
+  async (req, res, next) => {
     const income = await Income.findByIdAndDelete(
       req.params.id
     )
 
     if (!income) {
-      return res.status(400).json({
-        success: false,
-      })
+      return next(
+        new ErrorResponse(
+          `Income not found with id of ${req.params.id}`,
+          404
+        )
+      )
     }
 
     res.status(200).json({
       success: true,
       data: {},
     })
-  } catch (err) {
-    return res.status(400).json({
-      success: false,
-    })
   }
-}
+)

@@ -13,6 +13,7 @@ const IncomeSchema = new mongoose.Schema({
   slug: String,
   amount: {
     type: Number,
+    required: [true, 'Please add a amount'],
     min: [1, 'Amount must be at least 1'],
   },
   recurrence: [
@@ -37,7 +38,4 @@ const IncomeSchema = new mongoose.Schema({
   },
 })
 
-module.exports = mongoose.model(
-  'Income',
-  IncomeSchema
-)
+module.exports = mongoose.model('Income', IncomeSchema)
