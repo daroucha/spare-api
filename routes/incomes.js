@@ -7,11 +7,14 @@ const {
   deleteIncome,
 } = require('../controllers/incomes')
 
+const Income = require('../models/Income')
+const advancedResults = require('../middleware/advancedResults')
+
 const router = express.Router()
 
 router
   .route('/')
-  .get(getIncomes)
+  .get(advancedResults(Income), getIncomes)
   .post(createIncome)
 
 router
