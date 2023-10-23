@@ -7,7 +7,45 @@ const Income = require('../models/Income')
 // @access  Private
 exports.getIncomes = asyncHandler(
   async (req, res, next) => {
-    const incomes = await Income.find()
+    let query
+
+    // Copy req.query
+    const reqQuery = { ...req.query }
+
+    // Fields to exclude for filtering
+    const removeFields = ['select', 'sort']
+
+    // Loop over remove fields and delete them from request query
+    removeFields.forEach((param) => delete reqQuery[param])
+
+    // Create query string
+    let queryStr = JSON.stringify(reqQuery)
+
+    // Create operators ($gt, $gte, etc)
+    queryStr = queryStr.replace(
+      /\b(gt|gte|lt|lte|in)\b/g,
+      (match) => `$${match}`
+    )
+
+    // Finding resource
+    query = Income.find(JSON.parse(queryStr))
+
+    // Select fields
+    if (req.query.select) {
+      const fields = req.query.select.split(',').join(' ')
+      query = query.select(fields)
+    }
+
+    // Sort
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ')
+      query = query.sort(sortBy)
+    } else {
+      query = query.sort('-createdAt')
+    }
+
+    // Executing query
+    const incomes = await query
 
     res.status(200).json({
       success: true,
