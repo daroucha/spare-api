@@ -37,6 +37,9 @@ exports.getIncome = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.createIncome = asyncHandler(
   async (req, res, next) => {
+    // Add user to req.body
+    req.body.user = req.user.id
+
     const income = await Income.create(req.body)
 
     res.status(201).json({
@@ -51,14 +54,7 @@ exports.createIncome = asyncHandler(
 // @access  Private
 exports.updateIncome = asyncHandler(
   async (req, res, next) => {
-    const income = await Income.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    )
+    let income = await Income.findById(req.params.id)
 
     if (!income) {
       return next(
@@ -68,6 +64,25 @@ exports.updateIncome = asyncHandler(
         )
       )
     }
+
+    // Make sure user is income owner
+    if (income.user.toString() !== req.user.id) {
+      return next(
+        new ErrorResponse(
+          `User ${req.params.id} is not authorized to update this income`,
+          401
+        )
+      )
+    }
+
+    income = await Income.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    )
 
     res.status(200).json({
       success: true,
@@ -81,9 +96,7 @@ exports.updateIncome = asyncHandler(
 // @access  Private
 exports.deleteIncome = asyncHandler(
   async (req, res, next) => {
-    const income = await Income.findByIdAndDelete(
-      req.params.id
-    )
+    const income = await Income.findById(req.params.id)
 
     if (!income) {
       return next(
@@ -93,6 +106,18 @@ exports.deleteIncome = asyncHandler(
         )
       )
     }
+
+    // Make sure user is income owner
+    if (income.user.toString() !== req.user.id) {
+      return next(
+        new ErrorResponse(
+          `User ${req.params.id} is not authorized to delete this income`,
+          401
+        )
+      )
+    }
+
+    income.remove()
 
     res.status(200).json({
       success: true,
