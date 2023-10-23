@@ -3,7 +3,7 @@ const advancedResults =
     let query
 
     // Copy req.query
-    const reqQuery = { ...req.query }
+    const reqQuery = { ...req.query, user: req.user.id }
 
     // Fields to exclude for filtering
     const removeFields = ['select', 'sort', 'page', 'limit']
