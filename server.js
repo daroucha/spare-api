@@ -16,6 +16,7 @@ connectDB()
 
 // Route files
 const incomes = require('./routes/incomes')
+const auth = require('./routes/auth')
 
 // Initialize App
 const app = express()
@@ -30,6 +31,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Mount routers
 app.use('/api/v1/incomes', incomes)
+app.use('/api/v1/auth', auth)
 
 // Error handler middleware
 app.use(errorHandler)
@@ -46,14 +48,9 @@ const server = app.listen(
 )
 
 // Handle 'unhandled' promise rejections
-process.on(
-  'unhandledRejection',
-  (err, promise) => {
-    console.log(
-      `[SpareAPI] Error: ${err.message}`.red.bold
-    )
+process.on('unhandledRejection', (err, promise) => {
+  console.log(`[SpareAPI] Error: ${err.message}`.red.bold)
 
-    // Close server & exit process
-    server.close(() => process.exit(1))
-  }
-)
+  // Close server & exit process
+  server.close(() => process.exit(1))
+})
