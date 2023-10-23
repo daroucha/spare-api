@@ -12,15 +12,17 @@ const advancedResults = require('../middleware/advancedResults')
 
 const router = express.Router()
 
+const { protect } = require('../middleware/auth')
+
 router
   .route('/')
-  .get(advancedResults(Income), getIncomes)
-  .post(createIncome)
+  .get(protect, advancedResults(Income), getIncomes)
+  .post(protect, createIncome)
 
 router
   .route('/:id')
-  .get(getIncome)
-  .put(updateIncome)
-  .delete(deleteIncome)
+  .get(protect, getIncome)
+  .put(protect, updateIncome)
+  .delete(protect, deleteIncome)
 
 module.exports = router
