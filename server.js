@@ -8,6 +8,7 @@ const helmet = require('helmet')
 const xss = require('xss-clean')
 const rateLimit = require('express-rate-limit')
 const hpp = require('hpp')
+const cors = require('cors')
 
 const errorHandler = require('./middleware/error')
 const connectDB = require('./config/db')
@@ -56,6 +57,9 @@ app.use(limiter)
 
 // Prevent http param pollution
 app.use(hpp())
+
+// Enable CORS
+app.use(cors())
 
 // Mount routers
 app.use('/api/v1/incomes', incomes)
