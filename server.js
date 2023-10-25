@@ -4,6 +4,8 @@ const morgan = require('morgan')
 const colors = require('colors')
 const cookieParser = require('cookie-parser')
 const mongoSanitize = require('express-mongo-sanitize')
+const helmet = require('helmet')
+const xss = require('xss-clean')
 
 const errorHandler = require('./middleware/error')
 const connectDB = require('./config/db')
@@ -36,6 +38,12 @@ if (process.env.NODE_ENV === 'development') {
 
 // Sanitize data
 app.use(mongoSanitize())
+
+// Set security headers
+app.use(helmet())
+
+// Prevent XSS attacks
+app.use(xss())
 
 // Mount routers
 app.use('/api/v1/incomes', incomes)
