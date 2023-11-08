@@ -22,8 +22,9 @@ dotenv.config({
 connectDB()
 
 // Route files
-const incomes = require('./routes/incomes')
 const auth = require('./routes/auth')
+const incomes = require('./routes/incomes')
+const expenses = require('./routes/expenses')
 
 // Initialize App
 const app = express()
@@ -62,8 +63,9 @@ app.use(hpp())
 app.use(cors())
 
 // Mount routers
-app.use('/api/v1/incomes', incomes)
 app.use('/api/v1/auth', auth)
+app.use('/api/v1/incomes', incomes)
+app.use('/api/v1/expenses', expenses)
 
 // Error handler middleware
 app.use(errorHandler)
