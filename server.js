@@ -25,6 +25,7 @@ connectDB()
 const auth = require('./routes/auth')
 const incomes = require('./routes/incomes')
 const expenses = require('./routes/expenses')
+const categories = require('./routes/categories')
 
 // Initialize App
 const app = express()
@@ -66,6 +67,7 @@ app.use(cors())
 app.use('/api/v1/auth', auth)
 app.use('/api/v1/incomes', incomes)
 app.use('/api/v1/expenses', expenses)
+app.use('/api/v1/categories', categories)
 
 // Error handler middleware
 app.use(errorHandler)

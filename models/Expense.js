@@ -48,6 +48,10 @@ const ExpenseSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    category: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Category',
+    },
   },
   {
     toJSON: { virtuals: true },
