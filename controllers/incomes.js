@@ -117,7 +117,7 @@ exports.deleteIncome = asyncHandler(
       )
     }
 
-    income.remove()
+    income.deleteOne()
 
     res.status(200).json({
       success: true,

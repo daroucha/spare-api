@@ -33,15 +33,6 @@ const ExpenseSchema = new mongoose.Schema(
         type: String,
         enum: ['installment', 'bill', 'subscription'],
       },
-    },
-    // For installments
-    fraction: {
-      status: {
-        type: Boolean,
-        default: false,
-      },
-      // Current will be calculated on client base on billingDate (as start date) and fraction.total (as end date)
-      // Total months
       total: {
         type: Number,
         max: [800, 'Too much months'],
@@ -63,5 +54,36 @@ const ExpenseSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 )
+
+// Calculate endDate from billingDate and fraction total
+ExpenseSchema.virtual('endDate').get(function () {
+  const startDate = new Date(this.billingDate)
+
+  const endDate = startDate.setMonth(
+    startDate.getMonth() + this.recurrence.total
+  )
+
+  return new Date(endDate)
+})
+
+// Calculate current installment from billingDate and current date
+ExpenseSchema.virtual('recurrence.current').get(
+  function () {
+    const dateTo = new Date()
+    const dateFrom = this.billingDate
+
+    return (
+      dateTo.getMonth() -
+      dateFrom.getMonth() +
+      12 * (dateTo.getFullYear() - dateFrom.getFullYear())
+    )
+  }
+)
+
+// Create expense slug from the name
+ExpenseSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true })
+  next()
+})
 
 module.exports = mongoose.model('Expense', ExpenseSchema)

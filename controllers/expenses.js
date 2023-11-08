@@ -119,7 +119,7 @@ exports.deleteExpense = asyncHandler(
       )
     }
 
-    expense.remove()
+    expense.deleteOne()
 
     res.status(200).json({
       success: true,
