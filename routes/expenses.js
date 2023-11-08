@@ -10,7 +10,7 @@ const {
 const Expense = require('../models/Expense')
 const advancedResults = require('../middleware/advancedResults')
 
-const router = express.Router()
+const router = express.Router({ mergeParams: true })
 
 const { protect, authorize } = require('../middleware/auth')
 

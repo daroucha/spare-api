@@ -10,7 +10,13 @@ const {
 const Category = require('../models/Category')
 const advancedResults = require('../middleware/advancedResults')
 
+// Include other resource routers
+const expenseRouter = require('./expenses')
+
 const router = express.Router()
+
+// Re-route into other resource routers
+router.use('/:categoryId/expenses', expenseRouter)
 
 const { protect, authorize } = require('../middleware/auth')
 

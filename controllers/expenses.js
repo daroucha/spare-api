@@ -4,10 +4,30 @@ const Expense = require('../models/Expense')
 
 // @desc    Get all expenses
 // @route   GET /api/v1/expenses
+// @route   GET /api/v1/categories/:categoryId/expenses
 // @access  Private
 exports.getExpenses = asyncHandler(
   async (req, res, next) => {
-    res.status(200).json(res.advancedResults)
+    let query
+
+    if (req.params.categoryId) {
+      query = Expense.find({
+        category: req.params.categoryId,
+      })
+    } else {
+      query = Expense.find().populate({
+        path: 'category',
+        select: 'name theme',
+      })
+    }
+
+    const expenses = await query
+
+    res.status(200).json({
+      success: true,
+      count: expenses.length,
+      data: expenses,
+    })
   }
 )
 
