@@ -57,6 +57,10 @@ const ExpenseSchema = new mongoose.Schema(
 
 // Calculate endDate from billingDate and fraction total
 ExpenseSchema.virtual('endDate').get(function () {
+  if (!this.recurrence.status) {
+    return this.billingDate
+  }
+
   const startDate = new Date(this.billingDate)
 
   const endDate = startDate.setMonth(
