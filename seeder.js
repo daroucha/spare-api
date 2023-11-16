@@ -4,9 +4,9 @@ const colors = require('colors')
 const dotenv = require('dotenv')
 
 // Load env vars
-dotenv.config({ path: './config/config.env' })
+dotenv.config({ path: './src/config/config.env' })
 
 // Load models
-const Income = require('./models/Income')
+const Income = require('./src/models/Income')
 
 // Connect to DB

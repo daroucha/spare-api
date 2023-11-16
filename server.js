@@ -10,8 +10,8 @@ const rateLimit = require('express-rate-limit')
 const hpp = require('hpp')
 const cors = require('cors')
 
-const errorHandler = require('./middleware/error')
-const connectDB = require('./config/db')
+const errorHandler = require('./src/middleware/error')
+const connectDB = require('./src/config/db')
 
 // Load ENV Vars
 dotenv.config({
@@ -22,10 +22,10 @@ dotenv.config({
 connectDB()
 
 // Route files
-const auth = require('./routes/auth')
-const incomes = require('./routes/incomes')
-const expenses = require('./routes/expenses')
-const categories = require('./routes/categories')
+const auth = require('./src/routes/auth')
+const incomes = require('./src/routes/incomes')
+const expenses = require('./src/routes/expenses')
+const categories = require('./src/routes/categories')
 
 // Initialize App
 const app = express()
