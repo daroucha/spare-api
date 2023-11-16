@@ -20,7 +20,7 @@ const DebtSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    debtDate: {
+    dueDate: {
       type: Date,
       default: Date.now,
     },
