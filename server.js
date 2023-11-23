@@ -22,10 +22,10 @@ dotenv.config({
 connectDB()
 
 // Route files
-const auth = require('./src/routes/auth')
-const incomes = require('./src/routes/incomes')
-const expenses = require('./src/routes/expenses')
-const categories = require('./src/routes/categories')
+const auth = require('./src/routes/auth.routes')
+const incomes = require('./src/routes/incomes.routes')
+const expenses = require('./src/routes/expenses.routes')
+const categories = require('./src/routes/categories.routes')
 
 // Initialize App
 const app = express()
