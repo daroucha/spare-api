@@ -102,7 +102,7 @@ exports.forgotPassword = asyncHandler(
       'host'
     )}/api/v1/auth/resetpassword/${resetToken}`
 
-    // TODO: Use a front-end link instead in the future
+    // TODO Use a front-end link instead in the future
     const message = `You are receiving this email because you has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`
 
     try {
