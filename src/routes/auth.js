@@ -8,7 +8,7 @@ const {
   updateDetails,
   updatePassword,
   logout,
-} = require('../controllers/auth')
+} = require('../controllers/auth.controller')
 
 const router = express.Router()
 

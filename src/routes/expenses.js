@@ -5,7 +5,7 @@ const {
   createExpense,
   updateExpenses,
   deleteExpense,
-} = require('../controllers/expenses')
+} = require('../controllers/expenses.controller')
 
 const Expense = require('../models/Expense')
 const advancedResults = require('../middleware/advancedResults')

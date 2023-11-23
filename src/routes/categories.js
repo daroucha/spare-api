@@ -5,7 +5,7 @@ const {
   createCategory,
   updateCategory,
   deleteCategory,
-} = require('../controllers/categories')
+} = require('../controllers/categories.controller')
 
 const Category = require('../models/Category')
 const advancedResults = require('../middleware/advancedResults')

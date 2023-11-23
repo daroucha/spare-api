@@ -5,7 +5,7 @@ const {
   createIncome,
   updateIncome,
   deleteIncome,
-} = require('../controllers/incomes')
+} = require('../controllers/incomes.controller')
 
 const Income = require('../models/Income')
 const advancedResults = require('../middleware/advancedResults')
