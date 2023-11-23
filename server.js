@@ -10,7 +10,7 @@ const rateLimit = require('express-rate-limit')
 const hpp = require('hpp')
 const cors = require('cors')
 
-const errorHandler = require('./src/middleware/error')
+const errorHandler = require('./src/middleware/error.middleware')
 const connectDB = require('./src/config/db')
 
 // Load ENV Vars

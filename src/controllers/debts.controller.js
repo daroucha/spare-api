@@ -1,5 +1,5 @@
 const ErrorResponse = require('../utils/errorResponse')
-const asyncHandler = require('../middleware/async')
+const asyncHandler = require('../middleware/async.middleware')
 const Debt = require('../models/Debt')
 
 // @desc    Get all debts
