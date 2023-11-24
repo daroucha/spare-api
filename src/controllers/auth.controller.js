@@ -3,6 +3,7 @@ const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async.middleware')
 const sendEmail = require('../utils/sendEmail')
 const User = require('../models/User')
+const createUser = require('../services/auth.service')
 
 // @desc    Register user
 // @route   POST /api/v1/auth/register
@@ -11,7 +12,7 @@ exports.register = asyncHandler(async (req, res, next) => {
   const { name, email, password, role } = req.body
 
   // Create our user
-  const user = await User.create({
+  const user = await createUser({
     name,
     email,
     password,
