@@ -4,7 +4,7 @@
   "description": "RestFul API for Spare App",
   "main": "server.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --testTimeout=5000",
+    "test": "jest",
     "start": "NODE_ENV=production node server",
     "dev": "nodemon server"
   },
