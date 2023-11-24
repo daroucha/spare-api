@@ -11,7 +11,7 @@ const Category = require('../models/Category')
 const advancedResults = require('../middleware/advancedResults.middleware')
 
 // Include other resource routers
-const expenseRouter = require('./expenses')
+const expenseRouter = require('./expenses.routes')
 
 const router = express.Router()
 
