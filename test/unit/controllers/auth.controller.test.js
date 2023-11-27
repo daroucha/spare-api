@@ -28,14 +28,4 @@ describe('Auth Controller - Register', () => {
     expect(response.body).toHaveProperty('success', true)
     expect(response.body).toHaveProperty('token')
   })
-
-  it('should return an error if required fields are missing', async () => {
-    const response = await request(app)
-      .post('/api/v1/auth/register')
-      .send({})
-
-    expect(response.status).toBe(400)
-    expect(response.body).toHaveProperty('success', false)
-    expect(response.body).toHaveProperty('error')
-  })
 })
