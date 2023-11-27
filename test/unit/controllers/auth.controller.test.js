@@ -1,44 +1,43 @@
-const {
-  register,
-} = require('../../../src/controllers/auth.controller')
-const createUser = require('../../../src/services/auth.service')
+const request = require('supertest')
+const mockingoose = require('mockingoose')
 
-// Jest basic config
-jest.mock('../../../src/services/auth.service')
+const app = require('../../../src/app')
+const User = require('../../../src/models/User')
 
-describe('register', () => {
-  it('should register a new user and send token response', async () => {
-    const req = {
-      body: {
-        name: 'John Doe',
-        email: 'john@example.com',
-        password: 'password',
-        role: 'user',
-      },
-    }
-
-    const res = {
-      status: jest.fn(() => res),
-      json: jest.fn(),
-    }
-
-    const mockUser = {
-      /* mock user data */
-    }
-    createUser.mockResolvedValueOnce(mockUser)
-
-    await register(req, res)
-
-    expect(createUser).toHaveBeenCalledWith({
-      name: 'John Doe',
-      email: 'john@example.com',
-      password: 'password',
-      role: 'user',
-    })
-
-    expect(res.status).toHaveBeenCalledWith(200)
-    expect(
-      res.json
-    ).toHaveBeenCalledWith(/* Expected token response */)
+describe('Auth Controller - Register', () => {
+  beforeEach(() => {
+    mockingoose.resetAll()
   })
+
+  it('should register a new user and return a JWT token', async () => {
+    // Mock User.create to simulate saving to the database
+    mockingoose(User).toReturn({}, 'save')
+
+    const userData = {
+      name: 'Test User',
+      email: 'test@example.com',
+      password: 'testpassword',
+      role: 'user',
+    }
+
+    const response = await request(app)
+      .post('/api/v1/auth/register')
+      .send(userData)
+
+    expect(response.status).toBe(200)
+    expect(response.body).toHaveProperty('success', true)
+    expect(response.body).toHaveProperty('token')
+  })
+
+  // it('should return an error if required fields are missing', async () => {
+  //   const response = await request(app)
+  //     .post('/api/v1/auth/register')
+  //     .send({
+  //       // Missing required fields
+  //     })
+
+  //   expect(response.status).toBe(400)
+  //   expect(response.body).toHaveProperty('success', false)
+  //   expect(response.body).toHaveProperty('error')
+  // })
 })
